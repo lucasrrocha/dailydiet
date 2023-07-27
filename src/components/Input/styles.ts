@@ -1,8 +1,13 @@
-import { TextInput } from "react-native";
+import { TextInput, TextInputProps } from "react-native";
 import { css } from "styled-components";
 import styled from "styled-components/native";
 
+type InputProps = TextInputProps & {
+  textArea?: boolean;
+}
+
 export const Container = styled.View`
+width: 100%;
 `;
 
 export const Label = styled.Text`
@@ -14,8 +19,9 @@ export const Label = styled.Text`
   margin-bottom: 4px;
 `;
 
-export const ContainerInput = styled(TextInput)`
-
+export const ContainerInput = styled(TextInput) <InputProps>`
+  min-height: ${({ textArea }) => textArea ? '120px' : '48px'};
+  max-height: ${({ textArea }) => textArea ? '120px' : '48px'};
 
   ${({ theme }) => css`
     background-color: ${theme.COLORS.WHITE};

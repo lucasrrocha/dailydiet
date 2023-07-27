@@ -1,14 +1,23 @@
+import { Button } from "@components/Button";
 import { Header } from "@components/Header";
 import { Input } from "@components/Input";
 import { useNavigation } from "@react-navigation/native";
-import { Container, ContainerHeader, ContainerWrapper, FormRow } from "./styles";
+import { useState } from "react";
+import { View } from "react-native";
+import { Container, ContainerHeader, ContainerWrapper, FormRow, RadioBullet, RadioButtonFalse, RadioButtonTrue, RadioContainer, RadioText } from "./styles";
 
 export function NewMeal() {
+  const [selectedOption, setSelectedOption] = useState(true);
   const navigation = useNavigation();
 
   function handlePress() {
-    navigation.navigate("meals")
+    navigation.navigate("register", { dietStatus: selectedOption })
   }
+
+  function handleRadioButton(option: boolean) {
+    setSelectedOption(option);
+  }
+
   return (
     <Container>
       <ContainerHeader>
@@ -16,18 +25,35 @@ export function NewMeal() {
       </ContainerHeader>
 
       <ContainerWrapper>
-        <Input label="Nome" placeholder="Nome" autoCorrect={false} />
-        <Input label="Nome" placeholder="Nome" autoCorrect={false} />
-        {/*
-          <Input label="Descrição" placeholder="Descrição" multiline={true} autoCorrect={false} /> */}
+        <Input label="Nome" autoCorrect={false} />
+
+        <Input multiline={true} textArea label="Descrição" autoCorrect={false} />
 
         <FormRow>
-          <Input label="Nome" placeholder="Nome" autoCorrect={false} />
+          <Input style={{ width: '47%' }} label="Data" autoCorrect={false} />
 
-          <Input label="Descrição" placeholder="Descrição" autoCorrect={false} />
+          <Input style={{ width: '47%' }} label="Hora" autoCorrect={false} />
         </FormRow>
-      </ContainerWrapper>
 
+        <RadioContainer>
+          <RadioButtonTrue dietStatus={selectedOption} onPress={() => handleRadioButton(true)}>
+            <RadioBullet dietStatus />
+            <RadioText>Sim</RadioText>
+          </RadioButtonTrue>
+
+          <RadioButtonFalse dietStatus={selectedOption} onPress={() => handleRadioButton(false)}>
+            <RadioBullet />
+            <RadioText>Não</RadioText>
+          </RadioButtonFalse>
+        </RadioContainer>
+
+        <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: 70 }}>
+          <Button
+            title="Cadastrar refeição"
+            onPress={handlePress}
+          />
+        </View>
+      </ContainerWrapper>
     </Container>
   )
 }

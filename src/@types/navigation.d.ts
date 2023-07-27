@@ -4,6 +4,9 @@ export declare global {
       home: undefined;
       statistics: undefined;
       newMeal: undefined;
+      register: {
+        dietStatus: boolean;
+      };
       meals: undefined;
     }
   }

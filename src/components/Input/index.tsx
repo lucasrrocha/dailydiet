@@ -1,4 +1,4 @@
-import { TextInput, TextInputProps } from "react-native";
+import { TextInput, TextInputProps, ViewProps } from "react-native";
 import { useTheme } from 'styled-components/native';
 
 import { Container, ContainerInput, Label } from "./styles";
@@ -6,14 +6,16 @@ import { Container, ContainerInput, Label } from "./styles";
 type Props = TextInputProps & {
   inputRef?: React.RefObject<TextInput>;
   label: string;
+  textArea?: boolean;
+  style?: ViewProps;
 }
 
 
-export function Input({ inputRef, label, ...rest }: Props) {
+export function Input({ inputRef, label, style, ...rest }: Props) {
   const { COLORS } = useTheme();
 
   return (
-    <Container>
+    <Container style={style}>
       <Label>{label}</Label>
       <ContainerInput
         ref={inputRef}
