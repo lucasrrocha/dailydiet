@@ -79,7 +79,7 @@ export const SectionTitle = styled.Text`
 `;
 
 
-export const SectionContainer = styled.View`
+export const SectionContainer = styled.TouchableOpacity`
   width: 100%;  
   flex-direction: row;
   

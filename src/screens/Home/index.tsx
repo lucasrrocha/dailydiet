@@ -35,6 +35,10 @@ export function Home() {
     navigation.navigate("statistics");
   }
 
+  function handleMeals() {
+    navigation.navigate("meals");
+  }
+
   return (
     <Container>
       <Header>
@@ -68,7 +72,7 @@ export function Home() {
         sections={sections}
         keyExtractor={(item) => item.name}
         renderItem={({ item }) => (
-          <SectionContainer>
+          <SectionContainer onPress={handleMeals}>
             <SectionHour>{item.hour}</SectionHour>
             <Separator />
             <SectionText>{item.name}</SectionText>

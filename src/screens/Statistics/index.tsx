@@ -1,13 +1,8 @@
 import { Header } from "@components/Header";
-import { useNavigation } from "@react-navigation/native";
 import { Container, ContainerHeader, ContainerInfo, ContainerWrapper, Content, ContentNumber, ContentText, HeaderText, Info, PercentText, Title } from "./styles";
 
 export function Statistics() {
-  const navigation = useNavigation();
 
-  function handlePress() {
-    navigation.navigate("meals")
-  }
   return (
     <Container dietStatus>
       <ContainerHeader>
