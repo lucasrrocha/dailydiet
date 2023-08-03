@@ -1,7 +1,7 @@
 import { TextInput, TextInputProps, ViewProps } from "react-native";
-import { useTheme } from 'styled-components/native';
 
-import { Container, ContainerInput, Label } from "./styles";
+import { TextInputMaskProps } from "react-native-masked-text";
+import { Container, ContainerInput, ContainerInputMasked, Label } from "./styles";
 
 type Props = TextInputProps & {
   inputRef?: React.RefObject<TextInput>;
@@ -10,16 +10,31 @@ type Props = TextInputProps & {
   style?: ViewProps;
 }
 
+type InputMaskedProps = TextInputMaskProps & {
+  label: string;
+  style?: ViewProps;
+}
+
 
 export function Input({ inputRef, label, style, ...rest }: Props) {
-  const { COLORS } = useTheme();
-
   return (
     <Container style={style}>
       <Label>{label}</Label>
       <ContainerInput
         ref={inputRef}
-        placeholderTextColor={COLORS.GRAY_3}
+        {...rest}
+      />
+    </Container>
+  )
+}
+
+export function InputMasked({ type, options, label, style, ...rest }: InputMaskedProps) {
+  return (
+    <Container style={style}>
+      <Label>{label}</Label>
+      <ContainerInputMasked
+        type={type}
+        options={options}
         {...rest}
       />
     </Container>

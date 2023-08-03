@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import styled, { css } from "styled-components/native";
 
 type Props = {
-  percent: string;
+  percent?: number;
 }
 
 export const Container = styled(SafeAreaView)`
@@ -17,7 +17,7 @@ export const PercentContainer = styled.TouchableOpacity<Props>`
   height: 102px;
 
   border-radius: 8px;
-  background-color: ${({ theme, percent }) => percent >= '50' ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT};
+  background-color: ${({ theme, percent }) => (percent ?? 0) >= 50 ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT};
 
   align-items: center;
   justify-content: center;
@@ -90,7 +90,6 @@ export const SectionContainer = styled.TouchableOpacity`
   border-radius: 6px;
 
   align-items: center;
-  
   `;
 
 export const SectionHour = styled.Text`
@@ -99,7 +98,6 @@ export const SectionHour = styled.Text`
   font-family: ${theme.FONT_FAMILY.BOLD};
   font-size: ${theme.FONT_SIZE.LT}px;
 `};
-
 `;
 
 export const SectionText = styled.Text`
@@ -120,19 +118,34 @@ export const Separator = styled.View`
   margin: 0px 12px;
 `;
 
-export const DietBullet = styled.View`
+export const DietBullet = styled.View<{ dietStatus: boolean }>`
   width: 14px;
   height: 14px;
 
-  background-color: ${({ theme }) => theme.COLORS.RED_MID};
+  background-color: ${({ theme, dietStatus }) => dietStatus ? theme.COLORS.GREEN_MID : theme.COLORS.RED_MID};
   border-radius: 50%;
 `;
 
 export const ArrowUp = styled(ArrowUpRight).attrs<Props>(({ theme, percent }) => ({
   size: 24,
-  color: percent >= '50' ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK,
+  color: (percent ?? 0) >= 50 ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK,
 })) <Props>`
   position: absolute;
   right: 8px;
   top: 8px;
+`;
+
+export const ContainerEmpty = styled.View`
+height: 400px;
+
+align-items: center;
+justify-content: center;
+`;
+
+export const TextEmpty = styled.Text`
+  ${({ theme }) => css`
+  color: ${theme.COLORS.GRAY_3};
+  font-family: ${theme.FONT_FAMILY.REGULAR};
+  font-size: ${theme.FONT_SIZE.MD}px;
+`};
 `;

@@ -1,13 +1,23 @@
+import { MealsProps } from "@screens/Home";
+
 export declare global {
   namespace ReactNavigation {
     interface RootParamList {
       home: undefined;
-      statistics: undefined;
+      statistics: {
+        data: MealsProps[];
+        percent: string;
+      };
       newMeal: undefined;
       register: {
         dietStatus: boolean;
       };
-      meals: undefined;
+      meals: {
+        id: number;
+      };
+      editMeal: {
+        id: number;
+      }
     }
   }
 }

@@ -1,5 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
+import { useCallback, useState } from "react";
 import { Alert, View } from "react-native";
 
 import {
@@ -18,24 +18,34 @@ import { Button } from "@components/Button";
 import { Header } from "@components/Header";
 import { Input, InputMasked } from "@components/Input";
 
-import { mealCreate } from "@storage/meals/mealCreate";
+import { MealsProps } from "@screens/Home";
+import { mealEdit } from "@storage/meals/mealEdit";
+import { mealGetById } from "@storage/meals/mealGetById";
 
-export function NewMeal() {
+
+type RouteParams = {
+  id: number;
+}
+
+export function EditMeal() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
   const [hour, setHour] = useState('');
   const [selectedOption, setSelectedOption] = useState(true);
+  const [meal, setMeal] = useState<MealsProps>();
+
+  const route = useRoute();
+  const { id } = route.params as RouteParams;
 
   const navigation = useNavigation();
 
-  async function handlePress() {
+  async function handleEditMeal() {
     if (!name || !description || !date || !hour) {
       Alert.alert('Nova refeição', 'Preencha os dados para cadastrar uma nova refeição!');
       return;
     }
     const newMeal = {
-      id: new Date().getTime(),
       name,
       description,
       date,
@@ -44,8 +54,8 @@ export function NewMeal() {
     }
 
     try {
-      await mealCreate(newMeal);
-      navigation.navigate("register", { dietStatus: selectedOption });
+      await mealEdit(id, newMeal);
+      navigation.navigate("home");
 
     } catch (error) {
       Alert.alert('Nova refeição', 'Erro ao cadastrar nova refeição');
@@ -57,10 +67,30 @@ export function NewMeal() {
     setSelectedOption(option);
   }
 
+  async function fetchMealById() {
+    try {
+      const meal = await mealGetById(id);
+      if (meal) {
+        setName(meal.name);
+        setDescription(meal.description);
+        setDate(meal.date);
+        setHour(meal.hour);
+        setSelectedOption(meal.dietStatus);
+      }
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Refeições', 'Não foi possivel carregar a refeição selecionada.');
+    }
+  }
+
+  useFocusEffect(useCallback(() => {
+    fetchMealById();
+  }, []));
+
   return (
     <Container>
       <ContainerHeader>
-        <Header neutral title="Nova refeição" />
+        <Header neutral title="Editar refeição" />
       </ContainerHeader>
 
       <ContainerWrapper>
@@ -120,8 +150,8 @@ export function NewMeal() {
 
         <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: 70 }}>
           <Button
-            title="Cadastrar refeição"
-            onPress={handlePress}
+            title="Salvar alterações"
+            onPress={handleEditMeal}
           />
         </View>
       </ContainerWrapper>

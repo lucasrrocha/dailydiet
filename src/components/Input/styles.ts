@@ -1,4 +1,5 @@
 import { TextInput, TextInputProps } from "react-native";
+import { TextInputMask } from "react-native-masked-text";
 import { css } from "styled-components";
 import styled from "styled-components/native";
 
@@ -22,6 +23,23 @@ export const Label = styled.Text`
 export const ContainerInput = styled(TextInput) <InputProps>`
   min-height: ${({ textArea }) => textArea ? '120px' : '48px'};
   max-height: ${({ textArea }) => textArea ? '120px' : '48px'};
+
+  ${({ theme }) => css`
+    background-color: ${theme.COLORS.WHITE};
+    border: 1px solid ${theme.COLORS.GRAY_5};
+    color: ${theme.COLORS.GRAY_1};
+
+    font-family: ${theme.FONT_FAMILY.REGULAR};
+    font-size: ${theme.FONT_SIZE.MD}px;
+  `};
+
+  border-radius: 6px;
+  padding: 14px;
+`;
+
+export const ContainerInputMasked = styled(TextInputMask)`
+  min-height: 48px;
+  max-height: 48px;
 
   ${({ theme }) => css`
     background-color: ${theme.COLORS.WHITE};
